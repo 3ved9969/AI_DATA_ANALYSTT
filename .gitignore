@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Virtual Environments (Heavy binaries)
+venv/
+.venv/
+env/
+ENV/
+
+# Configuration Matrices & Secrets (CRITICAL PROTECTION)
+.env
+.env.local
+.env.*
+*.env
+
+# Local App Runtime Storage & Render Artifacts
+uploads/
+charts/
+reports/
+
+# Operating System specific files
+.DS_Store
+Thumbs.db

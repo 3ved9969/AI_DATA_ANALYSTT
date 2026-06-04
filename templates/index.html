@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#0b0f19] text-slate-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FormulaBot AI // Professional Analyst Workstation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Premium custom workspace scrollbars */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans antialiased overflow-hidden">
+
+  <header class="h-14 border-b border-slate-800 bg-[#0f172a]/80 backdrop-blur-md px-6 flex items-center justify-between shrink-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+        <i data-lucide="cpu" class="h-4 w-4 text-white"></i>
+      </div>
+      <div>
+        <h1 class="text-sm font-bold tracking-wider text-white uppercase flex items-center gap-2">
+          ARUDRA ANALYSIS <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 lowercase">v2.4-agent</span>
+        </h1>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-4 text-xs font-mono">
+      <div id="connectionBadge" class="flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/5 text-emerald-400 border border-emerald-500/10">
+        <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        Engine Online
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex overflow-hidden min-h-0">
+    
+    <section class="w-[380px] border-r border-slate-900 bg-[#0d1321] flex flex-col p-4 gap-4 overflow-y-auto shrink-0">
+      
+      <div class="rounded-xl border border-slate-800/60 bg-[#111827]/50 p-4 flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-bold tracking-widest uppercase text-slate-400 flex items-center gap-2">
+            <i data-lucide="folder-git" class="h-3.5 w-3.5 text-blue-400"></i> Ingestion Engine
+          </h2>
+        </div>
+        
+        <div class="relative group border border-dashed border-slate-700 hover:border-blue-500/50 rounded-lg p-4 transition-all bg-[#090d16] text-center cursor-pointer">
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="updateFileInputLabel()" />
+          <div class="flex flex-col items-center gap-1.5">
+            <div class="h-8 w-8 rounded-lg bg-slate-800/60 flex items-center justify-center text-slate-400 group-hover:text-blue-400 transition-all">
+              <i data-lucide="upload-cloud" class="h-4 w-4"></i>
+            </div>
+            <p id="fileLabel" class="text-xs font-medium text-slate-300">Drop dataset file here or browse</p>
+            <p class="text-[10px] text-slate-500">Structured tables (.csv, .xlsx, .xls)</p>
+          </div>
+        </div>
+        
+        <button onclick="uploadFile()" class="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 shadow-md shadow-blue-600/10">
+          <i data-lucide="refresh-cw" class="h-3.5 w-3.5"></i> Mount Schema Matrix
+        </button>
+        <p id="uploadStatus" class="text-[11px] font-mono text-center text-slate-400 empty:hidden"></p>
+      </div>
+
+      <div class="flex-1 rounded-xl border border-slate-800/60 bg-[#111827]/50 p-4 flex flex-col gap-3 min-h-[300px]">
+        <h2 class="text-xs font-bold tracking-widest uppercase text-slate-400 flex items-center gap-2">
+          <i data-lucide="terminal" class="h-3.5 w-3.5 text-indigo-400"></i> Analytical Console
+        </h2>
+        
+        <div id="chatBox" class="flex-1 overflow-y-auto rounded-lg bg-[#070a10]/80 border border-slate-800/40 p-3 flex flex-col gap-3 font-medium text-xs text-slate-300">
+          <div class="p-2.5 rounded-lg bg-[#0f172a] border border-slate-800 text-slate-300 flex gap-2 items-start">
+            <div class="h-5 w-5 rounded bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0 mt-0.5">
+              <i data-lucide="info" class="h-3 w-3"></i>
+            </div>
+            <p class="text-[11px] leading-relaxed text-slate-400">System initialized. Mount a standard table configuration frame matrix to unlock automated analytics run pipelines.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-1.5 mt-auto pt-2 border-t border-slate-800/40">
+          <input type="text" id="questionInput" placeholder="Ask like: 'Show monthly profit sales'..." class="flex-1 bg-[#090d16] border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-all" onkeydown="if(event.key==='Enter') sendQuery()" />
+          <button onclick="sendQuery()" class="h-8 w-8 rounded-lg bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shrink-0 transition-all">
+            <i data-lucide="arrow-right" class="h-3.5 w-3.5"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="flex-1 flex flex-col overflow-y-auto p-6 gap-6 bg-[#090d16]">
+      
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 shrink-0">
+        
+        <div class="xl:col-span-2 rounded-xl border border-slate-800/80 bg-[#111827]/40 p-4 shadow-xl flex flex-col gap-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold tracking-wider uppercase text-slate-300 flex items-center gap-2">
+              <i data-lucide="pie-chart" class="h-3.5 w-3.5 text-pink-400"></i> Interactive Data Visualizations
+            </h2>
+            <span class="text-[10px] font-mono text-slate-500">Engine Output Component</span>
+          </div>
+          <div id="chartContainer" class="w-full min-h-[360px] rounded-lg border border-slate-800/40 bg-[#0b0f19]/60 flex flex-col items-center justify-center text-center p-6 text-slate-500">
+            <i data-lucide="bar-chart-2" class="h-8 w-8 text-slate-700 mb-1.5"></i>
+            <p class="text-xs">Execute an exploratory parameter calculation query to render high-contrast chart vectors.</p>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-slate-800/80 bg-[#111827]/40 p-4 shadow-xl flex flex-col gap-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h2 class="text-xs font-bold tracking-wider uppercase text-slate-300 flex items-center gap-2">
+              <i data-lucide="zap" class="h-3.5 w-3.5 text-amber-400"></i> Automated Insights
+            </h2>
+            <span class="text-[10px] font-mono text-slate-500">Gemini Reasoning</span>
+          </div>
+          <div id="insightContainer" class="flex-1 flex flex-col justify-center text-slate-500 text-xs leading-relaxed text-center p-4 border border-slate-800/40 bg-[#0b0f19]/40 rounded-lg">
+            Awaiting downstream data pipeline token signals...
+          </div>
+        </div>
+
+      </div>
+
+      <div class="rounded-xl border border-slate-800/80 bg-[#111827]/40 p-4 shadow-xl flex flex-col gap-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <h2 class="text-xs font-bold tracking-wider uppercase text-slate-300 flex items-center gap-2">
+            <i data-lucide="grid" class="h-3.5 w-3.5 text-emerald-400"></i> Structural Target Result Matrix
+          </h2>
+          <span class="text-[10px] font-mono text-slate-500">Limit: 50 Records Preview Range</span>
+        </div>
+        <div id="tableContainer" class="w-full overflow-x-auto rounded-lg border border-slate-800/40 bg-[#070a10]">
+          <div class="p-8 text-center text-slate-600 text-xs flex flex-col items-center justify-center gap-1.5">
+            <i data-lucide="layout-grid" class="h-6 w-6 text-slate-800"></i>
+            No active transactional query evaluations or clean dataframe series arrays are rendered yet.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Build and inject vector graphic assets across DOM structures
+    lucide.createIcons();
+    function updateFileInputLabel() {
+      const input = document.getElementById('fileInput');
+      const label = document.getElementById('fileLabel');
+      if (input.files && input.files.length > 0) {
+        label.textContent = "Mounted: " + input.files[0].name;
+        label.className = "text-xs font-mono text-blue-400 font-bold";
+      }
+    }
+  </script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
